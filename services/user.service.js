@@ -8,10 +8,8 @@ const { generateToken } = require('../utils/gen.jwt');
 class UserService {
 
   /**
-   * creates a new user
-   * and generates a new
-   * jsonwebtoken for
-   * future transactions
+   * creates a new user and generates a new
+   * jsonwebtoken for future transactions
    *
    * @param {*} newUser: User object
    * @returns Promise<Token>
@@ -25,10 +23,8 @@ class UserService {
   }
 
   /**
-   * logs in the user
-   * and generates a new
-   * jsonwebtoken for
-   * future transactions
+   * logs in the user and generates a new
+   * jsonwebtoken for future transactions
    *
    * @param {*} { email, password }
    * @returns
