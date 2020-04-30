@@ -8,11 +8,11 @@ router.get('/', (req, res) => {
 });
 
 
-router.post('/login', async (req, res) => {
+router.post('/login', (req, res) => {
   let userInfo = _.pick(req.body, ['email', 'password']);
-  let response = await UserService.loginUser(userInfo)
+  UserService.loginUser(userInfo)
+    .then(response => res.json(response))
     .catch(e => res.status(500).send(e));
-  res.json(response);
 });
 
 

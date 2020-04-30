@@ -27,7 +27,7 @@ class UserService {
    * jsonwebtoken for future transactions
    *
    * @param {*} { email, password }
-   * @returns
+   * @returns Promise<Token>
    * @memberof UserService
    */
   async loginUser({ email, password }) {
