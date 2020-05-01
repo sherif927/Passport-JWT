@@ -32,6 +32,10 @@ let UserSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
     trim: true
+  },
+  verified: {
+    type: Boolean,
+    default: false
   }
 });
 

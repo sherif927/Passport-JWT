@@ -1,5 +1,7 @@
 const { User } = require('../models/user');
 const { generateToken } = require('../utils/gen.jwt');
+const { getAsync } = require('../utils/redis');
+const UserEmitter = require('../events/users');
 
 /**
  *
@@ -17,9 +19,16 @@ class UserService {
    */
   async registerNewUser(newUser) {
     let user = new User({ ...newUser });
-    let response = await user.save().catch(console.log);
+    let response = await user.save().catch(e => { throw e });
+    UserEmitter.emit('userRegistered', response);
     let token = generateToken(response._id);
     return token;
+  }
+
+  async confirmRegistration(identifier) {
+    let userId = await getAsync(identifier).catch(e => { throw e });
+    let existingUser = await User.findByIdAndUpdate(userId, { verified: true }).catch(e => console.log(e));
+    return existingUser;
   }
 
   /**
@@ -31,7 +40,7 @@ class UserService {
    * @memberof UserService
    */
   async loginUser({ email, password }) {
-    let existingUser = await User.findOne({ email }).catch(e => console.log(e));
+    let existingUser = await User.findOne({ email }).catch(e => { throw e });
     if (existingUser) {
       let validity = await existingUser.isValidPassword(password).catch(e => console.log(e));
       if (validity) {

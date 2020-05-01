@@ -11,8 +11,15 @@ router.post('/register', (req, res) => {
   let userBody = _.pick(req.body, ['name', 'age', 'email', 'password', 'gender', 'country', 'phoneNumber']);
   UserService.registerNewUser(userBody)
     .then(response => res.json(response))
-    .catch(e => res.status(500).send(e));
+    .catch(e => res.status(500).json(e));
 })
+
+router.get('/confirm/:id', (req, res) => {
+  const { id } = req.params;
+  UserService.confirmRegistration(id)
+    .then(response => res.json(response))
+    .catch(e => res.status(500).json(e))
+});
 
 router.get('/me', passport.authenticate('jwt', { session: false }), (req, res) => {
   res.send(`Hey there ${req.user.name}`);
