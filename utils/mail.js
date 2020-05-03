@@ -14,10 +14,14 @@ sgMail.setApiKey('SG.vnEkpwLkQbig2wsoa20QBw.n5CrEL9yDY96CAA4KeMVzeFzPSDz3SaW1Aud
  */
 class MailHandler {
 
+
   /**
-   *
+   * creates a callback url
+   * for the registration mail
+   * 
    * @param {*} url
-   * @returns a callback url with a random ID
+   * @param {*} userId
+   * @returns
    * @memberof MailHandler
    */
   async createConfirmEmailLink(url, userId) {
@@ -29,7 +33,6 @@ class MailHandler {
 
   /**
    *
-   * @static
    * @param {string} url
    * @param {string} email
    * @param {string} name
@@ -38,7 +41,6 @@ class MailHandler {
    */
   sendConfirmationEmail(url, email, name) {
     readFile(path.join(__dirname, '../html-templates/confirm.html'), async (err, fileData) => {
-      console.log(url);
       if (err) throw err;
       const htmlString = fileData.toString();
       const finalHtmlString = htmlString
@@ -55,8 +57,6 @@ class MailHandler {
       let response = await sgMail.send(msg).catch(e => console.log(e));
       if (response.statusCode == 202) console.log('Email Sent Successfully');
     })
-
-
   }
 }
 
